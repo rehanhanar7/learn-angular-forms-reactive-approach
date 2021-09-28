@@ -1,1 +1,73 @@
-<h1>I can be cloned, Since i have Bootstrap</h1>
+<h1>Forms Reactive</h1>
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmitData()">
+  <div class="form-control">
+    <label>Name : </label>
+    <input id="username" type="text" formControlName="username" />
+  </div>
+  <div class="form-control">
+    <label>Email : </label>
+    <input id="email" type="text" formControlName="email" />
+  </div>
+  <div class="form-control">
+    <label>
+      Select Gender :
+      <input type="radio" name="gender" value="male" formControlName="gender" />
+      Male
+      <input
+        type="radio"
+        name="gender"
+        value="female"
+        formControlName="gender"
+      />
+      Female
+    </label>
+  </div>
+  <div formGroupName="acadamics">
+    Acadamics
+    <div class="form-control">
+      <label>Education : </label>
+      <input id="education" type="text" formControlName="education" />
+    </div>
+    <div class="form-control">
+      <label>Marks : </label>
+      <input id="marks" type="text" formControlName="marks" />
+      <span
+        *ngIf="
+          !signUpForm.get('acadamics.marks').valid &&
+          signUpForm.get('acadamics.marks').touched
+        "
+        >Marks is required</span
+      >
+    </div>
+  </div>
+  <div formArrayName="hobbies">
+    <div
+      *ngFor="let hobby of signUpForm.get('hobbies')['controls']; let i = index"
+    >
+      <input type="text" id="i" [formControlName]="i" />
+      <span *ngIf="!hobby.valid">Please enter a valid hobby</span>
+    </div>
+    <button (click)="onAddHobby()" type="button">Add Hobby</button>
+  </div>
+  <br />
+  <div>
+    <button (click)="setRandomEducation()" type="button">
+      Set Random Education
+    </button>
+  </div>
+  <br />
+  <div>
+    <button (click)="clearEverything()" type="button">clearEverything</button>
+  </div>
+  <br />
+  <br />
+  <div>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="!signUpForm.valid"
+    >
+      Submit Data
+    </button>
+  </div>
+</form>
